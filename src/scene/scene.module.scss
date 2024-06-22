@@ -1,0 +1,6 @@
+@use '../variables.scss';
+.background{
+    background-color: variables.$lightsea;
+    image-rendering: pixelated;
+    width: 100%;
+}
