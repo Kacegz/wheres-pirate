@@ -34,6 +34,7 @@ export default function Scene() {
       ),
     ];
     coordinatesRef.current = coordinates;
+    console.log(coordinates);
     return coordinates;
   }
 
@@ -61,22 +62,18 @@ export default function Scene() {
       (character) => character.name === data.name
     )[0];
     if (result) {
-      console.log(characters);
-      console.log(coordinatesRef.current);
       if (
-        result.x + 30 >= coordinatesRef.current[0] &&
-        coordinatesRef.current[0] >= result.x - 30 &&
-        result.y + 30 >= coordinatesRef.current[1] &&
-        coordinatesRef.current[1] >= result.y - 30
+        result.x + 15 >= coordinatesRef.current[0] &&
+        coordinatesRef.current[0] >= result.x - 15 &&
+        result.y + 15 >= coordinatesRef.current[1] &&
+        coordinatesRef.current[1] >= result.y - 15
       ) {
-        console.log("hit");
         const temp = characters.filter(
           (character) => character.name !== data.name
         );
         result.found = true;
         result.pageX = cursorRef.current?.style.left;
         result.pageY = cursorRef.current?.style.top;
-
         return setCharacters([...temp, result]);
       }
     }
@@ -102,6 +99,7 @@ export default function Scene() {
           return (
             <div
               className={styles.foundCrosshair}
+              key={character.name}
               style={{
                 display: "block",
                 left: character.pageX,

@@ -1,5 +1,6 @@
 @use '../variables.scss';
 .background{
+
     background-color: variables.$lightsea;
     image-rendering: pixelated;
     width: 100%;
@@ -17,7 +18,7 @@
 .foundCrosshair{
     display: none;
     position: absolute;
-    background-image: url("../assets/crosshair.png");
+    background-image: url("../assets/mark.png");
     background-size: contain;
     width:60px;
     height:60px;

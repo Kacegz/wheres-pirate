@@ -1,5 +1,22 @@
 @use '../variables';
 .nav{
-  height: 10vh;
+  height: 100px;
   background-color: variables.$dark;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+}
+.images{
+  display: flex;
+  gap: 20px;
+}
+.image{
+  image-rendering: pixelated;
+  width: 60px;
+  height: 60px;
 }
