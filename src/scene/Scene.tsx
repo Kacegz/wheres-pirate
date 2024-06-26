@@ -1,12 +1,21 @@
 import styles from "./scene.module.scss";
 import background from "../assets/background.gif";
-import { useRef } from "react";
+import { createElement, useEffect, useRef, useState } from "react";
 
 export default function Scene() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const coordinatesRef = useRef<Array<Number>>([]);
-
+  const coordinatesRef = useRef<any>([]);
+  const [characters, setCharacters] = useState<any[]>([]);
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch("http://localhost:3000/characters");
+      const data = await response.json();
+      setCharacters(data);
+      console.log(data);
+    }
+    fetchData();
+  }, []);
   function getCoordinates(coords: any) {
     const coordinates: Array<Number> = [
       Math.round(
@@ -16,7 +25,6 @@ export default function Scene() {
         (coords.nativeEvent.offsetY / coords.target.offsetHeight) * 1000
       ),
     ];
-    console.log(coordinates);
     coordinatesRef.current = coordinates;
     return coordinates;
   }
@@ -38,10 +46,24 @@ export default function Scene() {
       dropdownRef.current.style.top = coordinates.pageY + "px";
     }
   }
-  function handleDropdownClick() {
+  function handleDropdownClick(data: any) {
     dropdownRef!.current!.style.display = "none";
     cursorRef!.current!.style.display = "none";
-    console.log(coordinatesRef.current);
+    const result = characters.filter(
+      (character) => character.name === data.name
+    )[0];
+    if (result) {
+      console.log(result);
+      if (
+        result.x + 10 >= coordinatesRef.current[0] &&
+        coordinatesRef.current[0] >= result.x - 10 &&
+        result.y + 10 >= coordinatesRef.current[1] &&
+        coordinatesRef.current[1] >= result.y - 10
+      ) {
+      }
+    }
+    console.log("miss");
+
     coordinatesRef.current = [];
   }
   return (
@@ -59,21 +81,21 @@ export default function Scene() {
       />
       <div ref={cursorRef} className={styles.cursor}></div>
       <div ref={dropdownRef} className={styles.dropdown}>
-        <button
-          className={styles.dropdownSelect}
-          value="first"
-          onClick={() => {
-            handleDropdownClick();
-          }}
-        >
-          First
-        </button>
-        <button className={styles.dropdownSelect} value="second">
-          Second
-        </button>
-        <button className={styles.dropdownSelect} value="third">
-          Third
-        </button>
+        {characters &&
+          characters.map((character: any) => {
+            return (
+              <button
+                className={styles.dropdownSelect}
+                value={character.name}
+                onClick={() => {
+                  handleDropdownClick(character);
+                }}
+                key={character.name}
+              >
+                {character.name}
+              </button>
+            );
+          })}
       </div>
     </>
   );
