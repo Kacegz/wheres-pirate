@@ -1,18 +1,26 @@
 import styles from "./scene.module.scss";
 import background from "../assets/background.gif";
-import { createElement, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Scene() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const coordinatesRef = useRef<any>([]);
   const [characters, setCharacters] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<any>(null);
+
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch("http://localhost:3000/characters");
-      const data = await response.json();
-      setCharacters(data);
-      console.log(data);
+      try {
+        const response = await fetch("http://localhost:3000/characters");
+        const data = await response.json();
+        setCharacters(data);
+        console.log(data);
+        setLoading(false);
+      } catch (err) {
+        setError("Connection failed");
+      }
     }
     fetchData();
   }, []);
@@ -53,18 +61,25 @@ export default function Scene() {
       (character) => character.name === data.name
     )[0];
     if (result) {
-      console.log(result);
+      console.log(characters);
+      console.log(coordinatesRef.current);
       if (
-        result.x + 10 >= coordinatesRef.current[0] &&
-        coordinatesRef.current[0] >= result.x - 10 &&
-        result.y + 10 >= coordinatesRef.current[1] &&
-        coordinatesRef.current[1] >= result.y - 10
+        result.x + 30 >= coordinatesRef.current[0] &&
+        coordinatesRef.current[0] >= result.x - 30 &&
+        result.y + 30 >= coordinatesRef.current[1] &&
+        coordinatesRef.current[1] >= result.y - 30
       ) {
+        console.log("hit");
+        const temp = characters.filter(
+          (character) => character.name !== data.name
+        );
+        result.found = true;
+        result.pageX = cursorRef.current?.style.left;
+        result.pageY = cursorRef.current?.style.top;
+
+        return setCharacters([...temp, result]);
       }
     }
-    console.log("miss");
-
-    coordinatesRef.current = [];
   }
   return (
     <>
@@ -79,10 +94,27 @@ export default function Scene() {
           expandDropdown(e);
         }}
       />
+      {loading && <div className={styles.loading}></div>}
+      {error && <div className={styles.error}>{error}</div>}
       <div ref={cursorRef} className={styles.cursor}></div>
+      {characters.map((character) => {
+        if (character.found) {
+          return (
+            <div
+              className={styles.foundCrosshair}
+              style={{
+                display: "block",
+                left: character.pageX,
+                top: character.pageY,
+              }}
+            ></div>
+          );
+        }
+      })}
       <div ref={dropdownRef} className={styles.dropdown}>
         {characters &&
           characters.map((character: any) => {
+            if (character.found) return;
             return (
               <button
                 className={styles.dropdownSelect}
