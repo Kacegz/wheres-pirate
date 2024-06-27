@@ -40,7 +40,7 @@
 }
 .error{
     position: absolute;
-    top: 200px;
+    top: 120px;
     width: fit-content;
     padding: 10px;
     margin-left: auto;
@@ -48,4 +48,5 @@
     left: 0;
     right: 0;
     background-color: red;
+    z-index: 999;
 }

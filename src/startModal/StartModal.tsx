@@ -2,7 +2,7 @@ import { createPortal } from "react-dom";
 import styles from "./startModal.module.scss";
 import { useEffect, useState } from "react";
 
-export default function Modal() {
+export default function Modal({ startTimer }: { startTimer: any }) {
   const [open, setOpen] = useState(true);
   useEffect(() => {
     if (open) {
@@ -19,6 +19,7 @@ export default function Modal() {
             <div className={styles.modal}>
               <button
                 onClick={() => {
+                  startTimer();
                   setOpen(false);
                 }}
               >

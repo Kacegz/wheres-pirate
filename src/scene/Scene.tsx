@@ -1,14 +1,16 @@
 import styles from "./scene.module.scss";
 import background from "../assets/background.gif";
+import { differenceInMilliseconds, differenceInSeconds } from "date-fns";
 import { useEffect, useRef, useState } from "react";
 
-export default function Scene() {
+export default function Scene({ stopCounting }: any) {
   const cursorRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const coordinatesRef = useRef<any>([]);
   const [characters, setCharacters] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
+  const [startDate, setStartDate] = useState<Date>(new Date());
   useEffect(() => {
     async function fetchData() {
       try {
@@ -23,6 +25,15 @@ export default function Scene() {
     }
     fetchData();
   }, []);
+  function checkWin() {
+    const filtered = characters.filter((character) => character.found == false);
+    if (filtered.length == 0) {
+      stopCounting();
+      const stopDate = new Date();
+      const difference = differenceInMilliseconds(stopDate, startDate);
+      console.log(difference);
+    }
+  }
   function getCoordinates(coords: any) {
     const coordinates: Array<Number> = [
       Math.round(
@@ -118,6 +129,7 @@ export default function Scene() {
                 value={character.name}
                 onClick={() => {
                   handleDropdownClick(character);
+                  checkWin();
                 }}
                 key={character.name}
               >
