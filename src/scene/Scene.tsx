@@ -9,7 +9,6 @@ export default function Scene() {
   const [characters, setCharacters] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
-
   useEffect(() => {
     async function fetchData() {
       try {
