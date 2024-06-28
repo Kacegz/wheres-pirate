@@ -3,11 +3,18 @@ import background from "../assets/background.gif";
 import { differenceInSeconds } from "date-fns";
 import { useEffect, useRef, useState } from "react";
 
-export default function Scene({ setOpenEnd }) {
+export default function Scene({
+  setOpenFinish,
+  stopTimer,
+}: {
+  setOpenFinish: Function;
+  stopTimer: Function;
+}) {
   const cursorRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const coordinatesRef = useRef<any>([]);
   const [characters, setCharacters] = useState<any[]>([]);
+  const [found, setFound] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
   useEffect(() => {
@@ -23,13 +30,23 @@ export default function Scene({ setOpenEnd }) {
     }
     fetchData();
   }, []);
-  function checkWin() {
-    const filtered = characters.filter((character) => character.found == false);
-    if (filtered.length == 0) {
-      console.log("won");
-      setOpenEnd(true);
+  useEffect(() => {
+    async function checkWin() {
+      const response = await fetch("http://localhost:3000/checkWin", {
+        method: "POST",
+        body: JSON.stringify(found),
+        headers: { "Content-Type": "application/json" },
+      });
+      const check = await response.json();
+      if (check) {
+        console.log("won");
+        setOpenFinish(true);
+        stopTimer();
+      }
     }
-  }
+    checkWin();
+  }, [found]);
+
   function getCoordinates(coords: any) {
     const coordinates: Array<Number> = [
       Math.round(
@@ -60,27 +77,26 @@ export default function Scene({ setOpenEnd }) {
       dropdownRef.current.style.top = coordinates.pageY + "px";
     }
   }
-  function handleDropdownClick(data: any) {
+  async function handleDropdownClick(data: any) {
     dropdownRef!.current!.style.display = "none";
     cursorRef!.current!.style.display = "none";
-    const result = characters.filter(
-      (character) => character.name === data.name
-    )[0];
-    if (result) {
-      if (
-        result.x + 15 >= coordinatesRef.current[0] &&
-        coordinatesRef.current[0] >= result.x - 15 &&
-        result.y + 15 >= coordinatesRef.current[1] &&
-        coordinatesRef.current[1] >= result.y - 15
-      ) {
-        const temp = characters.filter(
-          (character) => character.name !== data.name
-        );
-        result.found = true;
-        result.pageX = cursorRef.current?.style.left;
-        result.pageY = cursorRef.current?.style.top;
-        return setCharacters([...temp, result]);
-      }
+    const clicked = {
+      name: data,
+      x: coordinatesRef.current[0],
+      y: coordinatesRef.current[1],
+    };
+    const response = await fetch("http://localhost:3000/check", {
+      method: "POST",
+      body: JSON.stringify(clicked),
+      headers: { "Content-Type": "application/json" },
+    });
+    const check = await response.json();
+    if (check.found) {
+      check.pageX = cursorRef.current?.style.left;
+      check.pageY = cursorRef.current?.style.top;
+      const temp = characters.filter((character) => character !== check.name);
+      setCharacters([...temp]);
+      setFound([...found, check]);
     }
   }
   return (
@@ -99,36 +115,33 @@ export default function Scene({ setOpenEnd }) {
       {loading && <div className={styles.loading}></div>}
       {error && <div className={styles.error}>{error}</div>}
       <div ref={cursorRef} className={styles.cursor}></div>
-      {characters.map((character) => {
-        if (character.found) {
-          return (
-            <div
-              className={styles.foundCrosshair}
-              key={character.name}
-              style={{
-                display: "block",
-                left: character.pageX,
-                top: character.pageY,
-              }}
-            ></div>
-          );
-        }
+
+      {found.map((character) => {
+        return (
+          <div
+            className={styles.foundCrosshair}
+            key={character.name}
+            style={{
+              display: "block",
+              left: character.pageX,
+              top: character.pageY,
+            }}
+          ></div>
+        );
       })}
       <div ref={dropdownRef} className={styles.dropdown}>
         {characters &&
           characters.map((character: any) => {
-            if (character.found) return;
             return (
               <button
                 className={styles.dropdownSelect}
-                value={character.name}
+                value={character}
                 onClick={() => {
                   handleDropdownClick(character);
-                  checkWin();
                 }}
-                key={character.name}
+                key={character}
               >
-                {character.name}
+                {character}
               </button>
             );
           })}

@@ -10,13 +10,23 @@ import Modal from "../modal/Modal";
 
 function App() {
   const [openStart, setOpenStart] = useState(true);
-  const [openEnd, setOpenEnd] = useState(false);
+  const [openEnd, setOpenFinish] = useState(false);
   const [time, setTime] = useState(0);
+  const [intervalid, setIntervalId] = useState<any>(null);
+  function startTimer() {
+    const intervalid = setInterval(() => setTime((time) => time + 1), 10);
+    setIntervalId(intervalid);
+  }
+  function stopTimer() {
+    clearInterval(intervalid);
+  }
   return (
     <>
       <div className={styles.nav}>
         <div className={styles.time}>
-          <h1>Time: {time}</h1>
+          <h1 className={styles.timer}>
+            Time: {Math.floor((time % 6000) / 100)}.{time % 100}
+          </h1>
         </div>
         <div className={styles.images}>
           <img src={img1} alt="Captain" srcSet="" className={styles.image} />
@@ -25,18 +35,19 @@ function App() {
           <img src={img4} alt="Parrot" srcSet="" className={styles.image} />
         </div>
       </div>
-      <Scene setOpenEnd={setOpenEnd} />
+      <Scene setOpenFinish={setOpenFinish} stopTimer={stopTimer} />
+      <Modal open={openEnd}>
+        <div>You won!</div>
+      </Modal>
       <Modal open={openStart}>
         <button
           onClick={() => {
             setOpenStart(false);
+            startTimer();
           }}
         >
           Start the game
         </button>
-      </Modal>
-      <Modal open={openEnd}>
-        <div>You won!</div>
       </Modal>
     </>
   );

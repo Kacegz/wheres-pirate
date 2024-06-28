@@ -1,8 +1,11 @@
 import { createPortal } from "react-dom";
 import styles from "./modal.module.scss";
-import { useEffect, useState } from "react";
-
-export default function Modal({ open, children }) {
+import { useEffect } from "react";
+interface Modal {
+  open: boolean;
+  children: React.ReactElement;
+}
+export default function Modal({ open, children }: Modal) {
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
