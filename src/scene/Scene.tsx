@@ -1,23 +1,21 @@
 import styles from "./scene.module.scss";
 import background from "../assets/background.gif";
-import { differenceInMilliseconds, differenceInSeconds } from "date-fns";
+import { differenceInSeconds } from "date-fns";
 import { useEffect, useRef, useState } from "react";
 
-export default function Scene({ stopCounting }: any) {
+export default function Scene({ setOpenEnd }) {
   const cursorRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const coordinatesRef = useRef<any>([]);
   const [characters, setCharacters] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
-  const [startDate, setStartDate] = useState<Date>(new Date());
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await fetch("http://localhost:3000/characters");
         const data = await response.json();
         setCharacters(data);
-        console.log(data);
         setLoading(false);
       } catch (err) {
         setError("Connection failed");
@@ -28,10 +26,8 @@ export default function Scene({ stopCounting }: any) {
   function checkWin() {
     const filtered = characters.filter((character) => character.found == false);
     if (filtered.length == 0) {
-      stopCounting();
-      const stopDate = new Date();
-      const difference = differenceInMilliseconds(stopDate, startDate);
-      console.log(difference);
+      console.log("won");
+      setOpenEnd(true);
     }
   }
   function getCoordinates(coords: any) {
@@ -44,7 +40,6 @@ export default function Scene({ stopCounting }: any) {
       ),
     ];
     coordinatesRef.current = coordinates;
-    console.log(coordinates);
     return coordinates;
   }
 

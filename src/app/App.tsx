@@ -4,21 +4,14 @@ import img1 from "../assets/image1.png";
 import img2 from "../assets/image2.png";
 import img3 from "../assets/image3.png";
 import img4 from "../assets/image4.png";
-import StartModal from "../startModal/StartModal";
+//import StartModal from "../startModal/StartModal";
 import { useState } from "react";
+import Modal from "../modal/Modal";
 
 function App() {
-  const [time, setTime] = useState(1);
-  const [intervalId, setIntervalId] = useState<Number>();
-  const startCountHandler = () => {
-    const intervalid: number = setInterval(() => {
-      setTime((time) => time + 1);
-    }, 1000);
-    setIntervalId(intervalid);
-  };
-  const stopCountHandler = () => {
-    clearInterval(intervalId);
-  };
+  const [openStart, setOpenStart] = useState(true);
+  const [openEnd, setOpenEnd] = useState(false);
+  const [time, setTime] = useState(0);
   return (
     <>
       <div className={styles.nav}>
@@ -32,8 +25,19 @@ function App() {
           <img src={img4} alt="Parrot" srcSet="" className={styles.image} />
         </div>
       </div>
-      <Scene stopCounting={stopCountHandler} />
-      <StartModal startTimer={startCountHandler} />
+      <Scene setOpenEnd={setOpenEnd} />
+      <Modal open={openStart}>
+        <button
+          onClick={() => {
+            setOpenStart(false);
+          }}
+        >
+          Start the game
+        </button>
+      </Modal>
+      <Modal open={openEnd}>
+        <div>You won!</div>
+      </Modal>
     </>
   );
 }

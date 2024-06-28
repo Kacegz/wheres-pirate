@@ -1,9 +1,8 @@
 import { createPortal } from "react-dom";
-import styles from "./startModal.module.scss";
+import styles from "./modal.module.scss";
 import { useEffect, useState } from "react";
 
-export default function Modal() {
-  const [open, setOpen] = useState(true);
+export default function Modal({ open, children }) {
   useEffect(() => {
     if (open) {
       document.body.style.overflow = "hidden";
@@ -16,15 +15,7 @@ export default function Modal() {
       {open &&
         createPortal(
           <div className={styles.overlay}>
-            <div className={styles.modal}>
-              <button
-                onClick={() => {
-                  setOpen(false);
-                }}
-              >
-                Start the game
-              </button>
-            </div>
+            <div className={styles.modal}>{children}</div>
           </div>,
           document.body
         )}
