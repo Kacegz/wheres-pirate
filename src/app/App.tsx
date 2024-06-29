@@ -7,26 +7,58 @@ import img4 from "../assets/image4.png";
 //import StartModal from "../startModal/StartModal";
 import { useState } from "react";
 import Modal from "../modal/Modal";
+import { format } from "date-fns";
 
 function App() {
   const [openStart, setOpenStart] = useState(true);
   const [openEnd, setOpenFinish] = useState(false);
+  const [openBoard, setOpenBoard] = useState(false);
   const [time, setTime] = useState(0);
   const [intervalid, setIntervalId] = useState<any>(null);
-  function startTimer() {
-    const intervalid = setInterval(() => setTime((time) => time + 1), 10);
+  const [username, setUsername] = useState("");
+  async function startTimer() {
+    document.body.style.overflow = "auto";
+    const intervalid = setInterval(() => setTime((time) => time + 10), 10);
     setIntervalId(intervalid);
+    const response = await fetch("http://localhost:3000/start", {
+      credentials: "include",
+    });
+    const success = await response.json();
+    console.log(success);
+    if (success) {
+    }
   }
-  function stopTimer() {
-    clearInterval(intervalid);
+  async function stopTimer() {
+    document.body.style.overflow = "hidden";
+    const response = await fetch("http://localhost:3000/stop", {
+      credentials: "include",
+    });
+    const success = await response.json();
+    console.log(success);
+    if (success) {
+      setTime(success.time);
+      clearInterval(intervalid);
+    }
+  }
+  async function saveUser(e: any) {
+    e.preventDefault();
+    const response = await fetch("http://localhost:3000/save", {
+      body: username,
+      method: "POST",
+      credentials: "include",
+    });
+    const saved = await response.json();
+    console.log(saved);
+    if (saved) {
+      setOpenFinish(false);
+      setOpenBoard(true);
+    }
   }
   return (
     <>
       <div className={styles.nav}>
         <div className={styles.time}>
-          <h1 className={styles.timer}>
-            Time: {Math.floor((time % 6000) / 100)}.{time % 100}
-          </h1>
+          <h1 className={styles.timer}>Time: {format(time, "m.ss.SS")}</h1>
         </div>
         <div className={styles.images}>
           <img src={img1} alt="Captain" srcSet="" className={styles.image} />
@@ -36,8 +68,25 @@ function App() {
         </div>
       </div>
       <Scene setOpenFinish={setOpenFinish} stopTimer={stopTimer} />
+      <Modal open={openBoard}>
+        <div>board here</div>
+      </Modal>
       <Modal open={openEnd}>
-        <div>You won!</div>
+        <div>
+          <h1>Arr! Congrats!</h1>
+          <h2>Your time:</h2>
+          <h1>{time}</h1>
+          <h2>Enter your nickname</h2>
+          <form onSubmit={saveUser} method="post">
+            <input
+              type="text"
+              name="nickname"
+              id="nickname"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input type="submit" value="Save" />
+          </form>
+        </div>
       </Modal>
       <Modal open={openStart}>
         <button

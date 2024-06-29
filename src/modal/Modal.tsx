@@ -6,13 +6,6 @@ interface Modal {
   children: React.ReactElement;
 }
 export default function Modal({ open, children }: Modal) {
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [open]);
   return (
     <>
       {open &&
