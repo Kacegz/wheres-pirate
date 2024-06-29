@@ -8,21 +8,27 @@ import img4 from "../assets/image4.png";
 import { useState } from "react";
 import Modal from "../modal/Modal";
 import { format } from "date-fns";
-
+interface User {
+  nickname: string;
+  time: Date;
+}
 function App() {
   const [openStart, setOpenStart] = useState(true);
   const [openEnd, setOpenFinish] = useState(false);
   const [openBoard, setOpenBoard] = useState(false);
+  const [startTime, setStartTime] = useState(0);
   const [time, setTime] = useState(0);
   const [intervalid, setIntervalId] = useState<any>(null);
-  const [username, setUsername] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [leaderboard, setLeaderboard] = useState<Array<User>>([]);
   async function startTimer() {
+    setStartTime(Date.now());
     document.body.style.overflow = "auto";
-    const intervalid = setInterval(() => setTime((time) => time + 10), 10);
-    setIntervalId(intervalid);
     const response = await fetch("http://localhost:3000/start", {
       credentials: "include",
     });
+    const intervalid = setInterval(() => setTime(Date.now()), 10);
+    setIntervalId(intervalid);
     const success = await response.json();
     console.log(success);
     if (success) {
@@ -36,14 +42,14 @@ function App() {
     const success = await response.json();
     console.log(success);
     if (success) {
-      setTime(success.time);
       clearInterval(intervalid);
     }
   }
   async function saveUser(e: any) {
     e.preventDefault();
     const response = await fetch("http://localhost:3000/save", {
-      body: username,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nickname: nickname }),
       method: "POST",
       credentials: "include",
     });
@@ -52,13 +58,22 @@ function App() {
     if (saved) {
       setOpenFinish(false);
       setOpenBoard(true);
+      fetchLeaderboard();
     }
+  }
+  async function fetchLeaderboard() {
+    const request = await fetch("http://localhost:3000/top");
+    const users = await request.json();
+    console.log(users);
+    setLeaderboard(users);
   }
   return (
     <>
       <div className={styles.nav}>
         <div className={styles.time}>
-          <h1 className={styles.timer}>Time: {format(time, "m.ss.SS")}</h1>
+          <h1 className={styles.timer}>
+            Time: {format(time - startTime, "m.ss.SS")}
+          </h1>
         </div>
         <div className={styles.images}>
           <img src={img1} alt="Captain" srcSet="" className={styles.image} />
@@ -69,20 +84,29 @@ function App() {
       </div>
       <Scene setOpenFinish={setOpenFinish} stopTimer={stopTimer} />
       <Modal open={openBoard}>
-        <div>board here</div>
+        <ol>
+          {leaderboard &&
+            leaderboard.map((position) => {
+              return (
+                <li key={position.nickname}>
+                  {position.nickname} : {format(position.time, "m.ss.SS")}
+                </li>
+              );
+            })}
+        </ol>
       </Modal>
       <Modal open={openEnd}>
         <div>
           <h1>Arr! Congrats!</h1>
           <h2>Your time:</h2>
-          <h1>{time}</h1>
+          <h1>{format(time - startTime, "m.ss.SS")}</h1>
           <h2>Enter your nickname</h2>
           <form onSubmit={saveUser} method="post">
             <input
               type="text"
               name="nickname"
               id="nickname"
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => setNickname(e.target.value)}
             />
             <input type="submit" value="Save" />
           </form>

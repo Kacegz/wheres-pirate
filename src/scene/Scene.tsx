@@ -1,6 +1,5 @@
 import styles from "./scene.module.scss";
 import background from "../assets/background.gif";
-import { differenceInSeconds } from "date-fns";
 import { useEffect, useRef, useState } from "react";
 
 export default function Scene({
