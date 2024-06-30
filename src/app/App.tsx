@@ -4,10 +4,12 @@ import img1 from "../assets/image1.png";
 import img2 from "../assets/image2.png";
 import img3 from "../assets/image3.png";
 import img4 from "../assets/image4.png";
-//import StartModal from "../startModal/StartModal";
 import { useState } from "react";
 import Modal from "../modal/Modal";
 import { format } from "date-fns";
+import Start from "../start/Start";
+import Endgame from "../endgame/endgame";
+import Leaderboard from "../leaderboard/Leaderboard";
 interface User {
   nickname: string;
   time: Date;
@@ -16,8 +18,8 @@ function App() {
   const [openStart, setOpenStart] = useState(true);
   const [openEnd, setOpenFinish] = useState(false);
   const [openBoard, setOpenBoard] = useState(false);
-  const [startTime, setStartTime] = useState(0);
-  const [time, setTime] = useState(0);
+  const [startTime, setStartTime] = useState<number>(0);
+  const [time, setTime] = useState<number>(0);
   const [intervalid, setIntervalId] = useState<any>(null);
   const [nickname, setNickname] = useState("");
   const [leaderboard, setLeaderboard] = useState<Array<User>>([]);
@@ -27,11 +29,16 @@ function App() {
     const response = await fetch("http://localhost:3000/start", {
       credentials: "include",
     });
-    const intervalid = setInterval(() => setTime(Date.now()), 10);
-    setIntervalId(intervalid);
     const success = await response.json();
     console.log(success);
-    if (success) {
+    if (success === true) {
+      const intervalid = setInterval(() => setTime(Date.now()), 10);
+      setIntervalId(intervalid);
+    } else {
+      console.log(success);
+      setStartTime(new Date(success) as any);
+      const intervalid = setInterval(() => setTime(Date.now()), 10);
+      setIntervalId(intervalid);
     }
   }
   async function stopTimer() {
@@ -58,13 +65,12 @@ function App() {
     if (saved) {
       setOpenFinish(false);
       setOpenBoard(true);
-      fetchLeaderboard();
+      await fetchLeaderboard();
     }
   }
   async function fetchLeaderboard() {
     const request = await fetch("http://localhost:3000/top");
     const users = await request.json();
-    console.log(users);
     setLeaderboard(users);
   }
   return (
@@ -84,43 +90,18 @@ function App() {
       </div>
       <Scene setOpenFinish={setOpenFinish} stopTimer={stopTimer} />
       <Modal open={openBoard}>
-        <ol>
-          {leaderboard &&
-            leaderboard.map((position) => {
-              return (
-                <li key={position.nickname}>
-                  {position.nickname} : {format(position.time, "m.ss.SS")}
-                </li>
-              );
-            })}
-        </ol>
+        <Leaderboard leaderboard={leaderboard} />
       </Modal>
       <Modal open={openEnd}>
-        <div>
-          <h1>Arr! Congrats!</h1>
-          <h2>Your time:</h2>
-          <h1>{format(time - startTime, "m.ss.SS")}</h1>
-          <h2>Enter your nickname</h2>
-          <form onSubmit={saveUser} method="post">
-            <input
-              type="text"
-              name="nickname"
-              id="nickname"
-              onChange={(e) => setNickname(e.target.value)}
-            />
-            <input type="submit" value="Save" />
-          </form>
-        </div>
+        <Endgame
+          time={time}
+          startTime={startTime}
+          saveUser={saveUser}
+          setNickname={setNickname}
+        />
       </Modal>
       <Modal open={openStart}>
-        <button
-          onClick={() => {
-            setOpenStart(false);
-            startTimer();
-          }}
-        >
-          Start the game
-        </button>
+        <Start setOpenStart={setOpenStart} startTimer={startTimer} />
       </Modal>
     </>
   );
