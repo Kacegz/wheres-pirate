@@ -38,7 +38,6 @@ export default function Scene({
       });
       const check = await response.json();
       if (check) {
-        console.log("won");
         setOpenFinish(true);
         stopTimer();
       }
