@@ -5,12 +5,14 @@ interface Params {
   startTime: number;
   saveUser: any;
   setNickname: Function;
+  inputError: String;
 }
 export default function Endgame({
   time,
   startTime,
   saveUser,
   setNickname,
+  inputError,
 }: Params) {
   return (
     <>
@@ -27,6 +29,9 @@ export default function Endgame({
             id="nickname"
             onChange={(e) => setNickname(e.target.value)}
           />
+          {inputError && (
+            <span className={styles.inputError}>{inputError}</span>
+          )}
           <input type="submit" value="Save" />
         </div>
       </form>
