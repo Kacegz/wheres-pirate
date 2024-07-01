@@ -20,7 +20,7 @@ function App() {
   const [openBoard, setOpenBoard] = useState(false);
   const [startTime, setStartTime] = useState<number>(0);
   const [time, setTime] = useState<number>(0);
-  const [intervalid, setIntervalId] = useState<any>(null);
+  const [intervalid, setIntervalId] = useState<number | undefined>();
   const [nickname, setNickname] = useState("");
   const [inputError, setInputError] = useState("");
   const [leaderboard, setLeaderboard] = useState<Array<User>>([]);
@@ -50,7 +50,7 @@ function App() {
       clearInterval(intervalid);
     }
   }
-  async function saveUser(e: any) {
+  async function saveUser(e: React.ChangeEvent<SubmitEvent>) {
     e.preventDefault();
     const response = await fetch("http://localhost:3000/save", {
       headers: { "Content-Type": "application/json" },

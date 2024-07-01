@@ -12,19 +12,6 @@ export default function Leaderboard({
   return (
     <>
       <h1>Leaderboard:</h1>
-
-      {/*<ol>
-        {leaderboard &&
-          leaderboard.map((position) => {
-            return (
-              <>
-                <li key={position.nickname}>
-                  {position.nickname} : {format(position.time, "m.ss.SS")}
-                </li>
-              </>
-            );
-          })}
-      </ol>*/}
       <table className={styles.table}>
         {leaderboard &&
           leaderboard.map((position, index) => {
