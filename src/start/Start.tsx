@@ -8,9 +8,9 @@ export default function Start({
   return (
     <>
       <h1>Welcome to Where's Pirate!</h1>
-      <p>Arr!</p>
-      <p>You must find all 4 characters</p>
-      <p>Remember, you are timed!</p>
+      <p>Prepare for a Swashbuckling Adventure!</p>
+      <p>Your mission is to locate and tag all 4 characters.</p>
+      <p>Stay sharp and be quick, as every second counts in this hunt!</p>
       <button
         onClick={() => {
           setOpenStart(false);

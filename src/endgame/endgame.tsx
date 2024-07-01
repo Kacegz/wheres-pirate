@@ -17,7 +17,7 @@ export default function Endgame({
   return (
     <>
       <h1>Congratulations!</h1>
-      <p>You found all characters</p>
+      <p>You successfully found all the hidden characters!</p>
       <h3>Your time:</h3>
       <h3>{format(time - startTime, "m.ss.SS")} seconds</h3>
       <p>Enter your nickname:</p>
