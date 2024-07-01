@@ -28,11 +28,10 @@
     button,input[type="submit"]{
         background-color: #2B557D;
         width: 200px;
-        height: 70px;
+        padding: 10px;
         border-radius: 25px;
         border:none;
         color: #E4EAEF;
-        font-size: 1.2rem;
         box-shadow: 2px 4px 4px 0px rgb(0, 0, 0);
       }
       button:hover,input[type="submit"]:hover{

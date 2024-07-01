@@ -22,6 +22,7 @@ function App() {
   const [time, setTime] = useState<number>(0);
   const [intervalid, setIntervalId] = useState<any>(null);
   const [nickname, setNickname] = useState("");
+  const [inputError, setInputError] = useState("");
   const [leaderboard, setLeaderboard] = useState<Array<User>>([]);
   async function startTimer() {
     setStartTime(Date.now());
@@ -30,12 +31,10 @@ function App() {
       credentials: "include",
     });
     const success = await response.json();
-    console.log(success);
     if (success === true) {
       const intervalid = setInterval(() => setTime(Date.now()), 10);
       setIntervalId(intervalid);
     } else {
-      console.log(success);
       setStartTime(new Date(success) as any);
       const intervalid = setInterval(() => setTime(Date.now()), 10);
       setIntervalId(intervalid);
@@ -47,7 +46,6 @@ function App() {
       credentials: "include",
     });
     const success = await response.json();
-    console.log(success);
     if (success) {
       clearInterval(intervalid);
     }
@@ -61,11 +59,12 @@ function App() {
       credentials: "include",
     });
     const saved = await response.json();
-    console.log(saved);
-    if (saved) {
+    if (!saved.error) {
       setOpenFinish(false);
       setOpenBoard(true);
       await fetchLeaderboard();
+    } else {
+      setInputError(saved.error);
     }
   }
   async function fetchLeaderboard() {
@@ -98,6 +97,7 @@ function App() {
           startTime={startTime}
           saveUser={saveUser}
           setNickname={setNickname}
+          inputError={inputError}
         />
       </Modal>
       <Modal open={openStart}>

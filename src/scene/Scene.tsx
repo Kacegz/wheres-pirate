@@ -111,7 +111,11 @@ export default function Scene({
         }}
       />
       {loading && <div className={styles.loading}></div>}
-      {error && <div className={styles.error}>{error}</div>}
+      {error && (
+        <div className={styles.error}>
+          <h3>{error}</h3>
+        </div>
+      )}
       <div ref={cursorRef} className={styles.cursor}></div>
 
       {found.map((character) => {
