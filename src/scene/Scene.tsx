@@ -5,10 +5,10 @@ import { useEffect, useRef, useState } from "react";
 
 export default function Scene({
   setOpenFinish,
-  stopTimer,
+  stopGame,
 }: {
   setOpenFinish: Function;
-  stopTimer: Function;
+  stopGame: Function;
 }) {
   const cursorRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -40,7 +40,7 @@ export default function Scene({
       const check = await response.json();
       if (check) {
         setOpenFinish(true);
-        stopTimer();
+        stopGame();
       }
     }
     checkWin();

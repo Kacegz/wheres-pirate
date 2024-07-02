@@ -24,29 +24,30 @@ function App() {
   const [nickname, setNickname] = useState("");
   const [inputError, setInputError] = useState("");
   const [leaderboard, setLeaderboard] = useState<Array<User>>([]);
-  async function startTimer() {
+  async function startGame() {
     setStartTime(Date.now());
     document.body.style.overflow = "auto";
+    window.scrollTo(0, 0);
     const response = await fetch("http://localhost:3000/start", {
       credentials: "include",
     });
-    const success = await response.json();
-    if (success === true) {
+    const data = await response.json();
+    if (data === true) {
       const intervalid = setInterval(() => setTime(Date.now()), 10);
       setIntervalId(intervalid);
     } else {
-      setStartTime(new Date(success) as any);
+      setStartTime(new Date(data) as any);
       const intervalid = setInterval(() => setTime(Date.now()), 10);
       setIntervalId(intervalid);
     }
   }
-  async function stopTimer() {
+  async function stopGame() {
     document.body.style.overflow = "hidden";
     const response = await fetch("http://localhost:3000/stop", {
       credentials: "include",
     });
-    const success = await response.json();
-    if (success) {
+    const data = await response.json();
+    if (data) {
       clearInterval(intervalid);
     }
   }
@@ -87,7 +88,7 @@ function App() {
           <img src={img4} alt="Parrot" srcSet="" className={styles.image} />
         </div>
       </div>
-      <Scene setOpenFinish={setOpenFinish} stopTimer={stopTimer} />
+      <Scene setOpenFinish={setOpenFinish} stopGame={stopGame} />
       <Modal open={openBoard}>
         <Leaderboard leaderboard={leaderboard} />
       </Modal>
@@ -101,7 +102,7 @@ function App() {
         />
       </Modal>
       <Modal open={openStart}>
-        <Start setOpenStart={setOpenStart} startTimer={startTimer} />
+        <Start setOpenStart={setOpenStart} startGame={startGame} />
       </Modal>
     </>
   );

@@ -2,10 +2,10 @@ import loadingImg from "../assets/parrot.png";
 import styles from "./start.module.scss";
 export default function Start({
   setOpenStart,
-  startTimer,
+  startGame,
 }: {
   setOpenStart: Function;
-  startTimer: Function;
+  startGame: Function;
 }) {
   return (
     <>
@@ -17,7 +17,7 @@ export default function Start({
       <button
         onClick={() => {
           setOpenStart(false);
-          startTimer();
+          startGame();
         }}
       >
         Start the game

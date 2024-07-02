@@ -3,6 +3,8 @@
     background-color: variables.$lightsea;
     image-rendering: pixelated;
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 .cursor{
     display: none;
