@@ -1,0 +1,125 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`App component > Renders app 1`] = `
+<div>
+  <div
+    class="_nav_6659cc"
+  >
+    <div
+      class="_time_6659cc"
+    >
+      <h1
+        class="_timer_6659cc"
+      >
+        Time: 
+        0.00.00
+      </h1>
+    </div>
+    <div
+      class="_images_6659cc"
+    >
+      <img
+        alt="Captain"
+        class="_image_6659cc"
+        src="/src/assets/image1.png"
+        srcset=""
+      />
+      <img
+        alt="Pirate"
+        class="_image_6659cc"
+        src="/src/assets/image2.png"
+        srcset=""
+      />
+      <img
+        alt="Octopus"
+        class="_image_6659cc"
+        src="/src/assets/image3.png"
+        srcset=""
+      />
+      <img
+        alt="Parrot"
+        class="_image_6659cc"
+        src="/src/assets/image4.png"
+        srcset=""
+      />
+    </div>
+  </div>
+  <img
+    alt="img"
+    class="_background_d43a93"
+    src="/src/assets/background.gif"
+    srcset=""
+  />
+  <div
+    class="_loading_d43a93"
+  />
+  <div
+    class="_cursor_d43a93"
+  />
+  <div
+    class="_dropdown_d43a93"
+  />
+</div>
+`;
+
+exports[`App component > Should render properly 1`] = `
+<div>
+  <div
+    class="_nav_6659cc"
+  >
+    <div
+      class="_time_6659cc"
+    >
+      <h1
+        class="_timer_6659cc"
+      >
+        Time: 
+        0.00.00
+      </h1>
+    </div>
+    <div
+      class="_images_6659cc"
+    >
+      <img
+        alt="Captain"
+        class="_image_6659cc"
+        src="/src/assets/image1.png"
+        srcset=""
+      />
+      <img
+        alt="Pirate"
+        class="_image_6659cc"
+        src="/src/assets/image2.png"
+        srcset=""
+      />
+      <img
+        alt="Octopus"
+        class="_image_6659cc"
+        src="/src/assets/image3.png"
+        srcset=""
+      />
+      <img
+        alt="Parrot"
+        class="_image_6659cc"
+        src="/src/assets/image4.png"
+        srcset=""
+      />
+    </div>
+  </div>
+  <img
+    alt="img"
+    class="_background_d43a93"
+    src="/src/assets/background.gif"
+    srcset=""
+  />
+  <div
+    class="_loading_d43a93"
+  />
+  <div
+    class="_cursor_d43a93"
+  />
+  <div
+    class="_dropdown_d43a93"
+  />
+</div>
+`;
