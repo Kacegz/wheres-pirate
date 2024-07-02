@@ -13,7 +13,6 @@
     background-size: contain;
     width:60px;
     height:60px;
-    filter: invert(1);
     pointer-events: none;
 }
 .foundCrosshair{
@@ -97,4 +96,9 @@
         opacity: 1;
     }
     
+}
+@media screen and (max-width:600px) {
+    .background{
+        width: 200%;
+    }
 }

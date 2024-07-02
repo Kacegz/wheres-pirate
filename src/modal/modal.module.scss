@@ -41,3 +41,11 @@
         transform: scale(0.9);
       }
 }
+@media screen and (max-width:600px) {
+  .overlay{
+      width:200%;
+      position:absolute;
+      top: 0;
+      left:0;
+  }
+}
