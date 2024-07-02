@@ -12,7 +12,7 @@ export default function Modal({ open, children }: Modal) {
           <div className={styles.overlay}>
             <div className={styles.modal}>{children}</div>
           </div>,
-          document.getElementById("root")
+          document.body
         )}
     </>
   );

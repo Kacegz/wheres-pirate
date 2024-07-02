@@ -1,5 +1,6 @@
 import styles from "./scene.module.scss";
 import background from "../assets/background.gif";
+import loadingImg from "../assets/loading.png";
 import { useEffect, useRef, useState } from "react";
 
 export default function Scene({
@@ -37,6 +38,7 @@ export default function Scene({
         headers: { "Content-Type": "application/json" },
       });
       const check = await response.json();
+      console.log(check);
       if (check) {
         setOpenFinish(true);
         stopTimer();
@@ -101,7 +103,7 @@ export default function Scene({
     <>
       <img
         src={background}
-        alt=""
+        alt="img"
         srcSet=""
         className={styles.background}
         onClick={(e) => {
@@ -110,7 +112,12 @@ export default function Scene({
           expandDropdown(e);
         }}
       />
-      {loading && <div className={styles.loading}></div>}
+      {loading && (
+        <div className={styles.loading}>
+          <img src={loadingImg} alt="" className={styles.loadingImg} />
+          <h3>Loading...</h3>
+        </div>
+      )}
       {error && (
         <div className={styles.error}>
           <h3>{error}</h3>

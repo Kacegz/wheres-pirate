@@ -51,9 +51,16 @@
     bottom: 0;
     z-index: 999;
     display: flex;
+    flex-direction: column;
+    gap:20px;
     justify-content: center;
     align-items: center;
     background-color: rgba($color: #000000, $alpha: 0.6);
+}
+.loadingImg{
+    width:80px;
+    height: 80px;
+    animation: 2s ease-in-out 0s infinite sail;
 }
 .error{
     position: fixed;
@@ -68,6 +75,17 @@
     z-index: 999;
     animation: 1s ease-out 0s 1 slide;
     border-radius: 10px;
+}
+@keyframes sail {
+    0%{
+        transform: rotate(-5deg);
+    }
+    50%{
+        transform: rotate(5deg);
+    }
+    100%{
+        transform: rotate(-5deg);
+    }
 }
 @keyframes slide {
     0%{
