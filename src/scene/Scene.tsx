@@ -38,7 +38,6 @@ export default function Scene({
         headers: { "Content-Type": "application/json" },
       });
       const check = await response.json();
-      console.log(check);
       if (check) {
         setOpenFinish(true);
         stopTimer();
