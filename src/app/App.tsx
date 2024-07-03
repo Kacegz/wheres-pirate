@@ -69,7 +69,9 @@ function App() {
     }
   }
   async function fetchLeaderboard() {
-    const request = await fetch("http://localhost:3000/top");
+    const request = await fetch(
+      "https://kacegz-wheres-pirate.up.railway.app/top"
+    );
     const users = await request.json();
     setLeaderboard(users);
   }
