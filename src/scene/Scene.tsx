@@ -20,7 +20,9 @@ export default function Scene({
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch("http://localhost:3000/characters");
+        const response = await fetch(
+          "https://kacegz-wheres-pirate.up.railway.app/characters"
+        );
         const data = await response.json();
         setCharacters(data);
         setLoading(false);
@@ -32,11 +34,14 @@ export default function Scene({
   }, []);
   useEffect(() => {
     async function checkWin() {
-      const response = await fetch("http://localhost:3000/checkWin", {
-        method: "POST",
-        body: JSON.stringify(found),
-        headers: { "Content-Type": "application/json" },
-      });
+      const response = await fetch(
+        "https://kacegz-wheres-pirate.up.railway.app/checkWin",
+        {
+          method: "POST",
+          body: JSON.stringify(found),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       const check = await response.json();
       if (check) {
         setOpenFinish(true);
@@ -84,11 +89,14 @@ export default function Scene({
       x: coordinatesRef.current[0],
       y: coordinatesRef.current[1],
     };
-    const response = await fetch("http://localhost:3000/check", {
-      method: "POST",
-      body: JSON.stringify(clicked),
-      headers: { "Content-Type": "application/json" },
-    });
+    const response = await fetch(
+      "https://kacegz-wheres-pirate.up.railway.app/check",
+      {
+        method: "POST",
+        body: JSON.stringify(clicked),
+        headers: { "Content-Type": "application/json" },
+      }
+    );
     const check = await response.json();
     if (check.found) {
       check.pageX = cursorRef.current?.style.left;
