@@ -18,7 +18,9 @@ function App() {
   const [openStart, setOpenStart] = useState(true);
   const [openEnd, setOpenFinish] = useState(false);
   const [openBoard, setOpenBoard] = useState(false);
-  const [startTime, setStartTime] = useState<number>(0);
+  const [startTime, setStartTime] = useState<number>(
+    new Date() as any | number
+  );
   const [time, setTime] = useState<number>(0);
   const [intervalid, setIntervalId] = useState<number | undefined>();
   const [nickname, setNickname] = useState("");
@@ -53,10 +55,7 @@ function App() {
       }
     );
     const data = await response.json();
-    console.log(data);
-    if (data) {
-      clearInterval(intervalid);
-    }
+    clearInterval(intervalid);
   }
   async function saveUser(e: React.ChangeEvent<SubmitEvent>) {
     e.preventDefault();
@@ -71,9 +70,9 @@ function App() {
     );
     const saved = await response.json();
     if (!saved.error) {
+      await fetchLeaderboard();
       setOpenFinish(false);
       setOpenBoard(true);
-      await fetchLeaderboard();
     } else {
       setInputError(saved.error);
     }
