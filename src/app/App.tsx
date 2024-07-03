@@ -28,12 +28,9 @@ function App() {
     setStartTime(Date.now());
     document.body.style.overflow = "auto";
     window.scrollTo(0, 0);
-    const response = await fetch(
-      "https://kacegz-wheres-pirate.up.railway.app/start",
-      {
-        credentials: "include",
-      }
-    );
+    const response = await fetch("http://localhost:3000/start", {
+      credentials: "include",
+    });
     const data = await response.json();
     if (data === true) {
       const intervalid = setInterval(() => setTime(Date.now()), 10);
@@ -46,12 +43,9 @@ function App() {
   }
   async function stopGame() {
     document.body.style.overflow = "hidden";
-    const response = await fetch(
-      "https://kacegz-wheres-pirate.up.railway.app/stop",
-      {
-        credentials: "include",
-      }
-    );
+    const response = await fetch("http://localhost:3000/stop", {
+      credentials: "include",
+    });
     const data = await response.json();
     if (data) {
       clearInterval(intervalid);
@@ -59,15 +53,12 @@ function App() {
   }
   async function saveUser(e: React.ChangeEvent<SubmitEvent>) {
     e.preventDefault();
-    const response = await fetch(
-      "https://kacegz-wheres-pirate.up.railway.app/save",
-      {
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nickname: nickname }),
-        method: "POST",
-        credentials: "include",
-      }
-    );
+    const response = await fetch("http://localhost:3000/save", {
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nickname: nickname }),
+      method: "POST",
+      credentials: "include",
+    });
     const saved = await response.json();
     if (!saved.error) {
       setOpenFinish(false);
@@ -78,9 +69,7 @@ function App() {
     }
   }
   async function fetchLeaderboard() {
-    const request = await fetch(
-      "https://kacegz-wheres-pirate.up.railway.app/top"
-    );
+    const request = await fetch("http://localhost:3000/top");
     const users = await request.json();
     setLeaderboard(users);
   }
