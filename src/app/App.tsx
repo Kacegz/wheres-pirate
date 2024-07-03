@@ -31,7 +31,7 @@ function App() {
     const response = await fetch(
       "https://kacegz-wheres-pirate.up.railway.app/start",
       {
-        credentials: "same-origin",
+        credentials: "include",
       }
     );
     const data = await response.json();
@@ -49,10 +49,11 @@ function App() {
     const response = await fetch(
       "https://kacegz-wheres-pirate.up.railway.app/stop",
       {
-        credentials: "same-origin",
+        credentials: "include",
       }
     );
     const data = await response.json();
+    console.log(data);
     if (data) {
       clearInterval(intervalid);
     }
@@ -65,7 +66,7 @@ function App() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nickname: nickname }),
         method: "POST",
-        credentials: "same-origin",
+        credentials: "include",
       }
     );
     const saved = await response.json();
@@ -79,10 +80,7 @@ function App() {
   }
   async function fetchLeaderboard() {
     const request = await fetch(
-      "https://kacegz-wheres-pirate.up.railway.app/top",
-      {
-        method: "GET",
-      }
+      "https://kacegz-wheres-pirate.up.railway.app/top"
     );
     const users = await request.json();
     setLeaderboard(users);
