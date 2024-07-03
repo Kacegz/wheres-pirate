@@ -18,16 +18,13 @@ function App() {
   const [openStart, setOpenStart] = useState(true);
   const [openEnd, setOpenFinish] = useState(false);
   const [openBoard, setOpenBoard] = useState(false);
-  const [startTime, setStartTime] = useState<number>(
-    new Date() as any | number
-  );
+  const [startTime, setStartTime] = useState<number>(0);
   const [time, setTime] = useState<number>(0);
   const [intervalid, setIntervalId] = useState<number | undefined>();
   const [nickname, setNickname] = useState("");
   const [inputError, setInputError] = useState("");
   const [leaderboard, setLeaderboard] = useState<Array<User>>([]);
   async function startGame() {
-    setStartTime(Date.now());
     document.body.style.overflow = "auto";
     window.scrollTo(0, 0);
     const response = await fetch(
@@ -48,6 +45,7 @@ function App() {
   }
   async function stopGame() {
     document.body.style.overflow = "hidden";
+    clearInterval(intervalid);
     const response = await fetch(
       "https://kacegz-wheres-pirate.up.railway.app/stop",
       {
@@ -55,7 +53,6 @@ function App() {
       }
     );
     const data = await response.json();
-    clearInterval(intervalid);
   }
   async function saveUser(e: React.ChangeEvent<SubmitEvent>) {
     e.preventDefault();
