@@ -79,7 +79,10 @@ function App() {
   }
   async function fetchLeaderboard() {
     const request = await fetch(
-      "https://kacegz-wheres-pirate.up.railway.app/top"
+      "https://kacegz-wheres-pirate.up.railway.app/top",
+      {
+        credentials: "include",
+      }
     );
     const users = await request.json();
     setLeaderboard(users);
