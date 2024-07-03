@@ -44,8 +44,8 @@ export default function Scene({
       );
       const check = await response.json();
       if (check) {
-        setOpenFinish(true);
         stopGame();
+        setOpenFinish(true);
       }
     }
     checkWin();

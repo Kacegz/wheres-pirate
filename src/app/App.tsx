@@ -25,6 +25,7 @@ function App() {
   const [inputError, setInputError] = useState("");
   const [leaderboard, setLeaderboard] = useState<Array<User>>([]);
   async function startGame() {
+    setStartTime(Date.now());
     document.body.style.overflow = "auto";
     window.scrollTo(0, 0);
     const response = await fetch(
@@ -44,15 +45,11 @@ function App() {
     }
   }
   async function stopGame() {
-    document.body.style.overflow = "hidden";
     clearInterval(intervalid);
-    const response = await fetch(
-      "https://kacegz-wheres-pirate.up.railway.app/stop",
-      {
-        credentials: "include",
-      }
-    );
-    const data = await response.json();
+    document.body.style.overflow = "hidden";
+    await fetch("https://kacegz-wheres-pirate.up.railway.app/stop", {
+      credentials: "include",
+    });
   }
   async function saveUser(e: React.ChangeEvent<SubmitEvent>) {
     e.preventDefault();
@@ -67,7 +64,7 @@ function App() {
     );
     const saved = await response.json();
     if (!saved.error) {
-      await fetchLeaderboard();
+      fetchLeaderboard();
       setOpenFinish(false);
       setOpenBoard(true);
     } else {
