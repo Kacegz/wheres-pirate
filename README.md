@@ -12,3 +12,6 @@ If you find them all you can save your score and view top 10 players.
 - SCSS
 - React
 - Typescript
+
+
+Image source: https://pixeljoint.com/forum/forum_posts.asp?TID=25651
