@@ -10,7 +10,9 @@ export default function Start({
 }) {
   return (
     <>
-      <img src={loadingImg} className={styles.parrot} alt="" />
+      <div className={styles.wrapper}>
+        <img src={loadingImg} className={styles.parrot} alt="" />
+      </div>
       <h1>Welcome to Where's Pirate!</h1>
       {isMobile && (
         <h3 style={{ color: "red" }}>WARNING: Mobile devices unsupported</h3>
