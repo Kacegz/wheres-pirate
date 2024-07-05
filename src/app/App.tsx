@@ -25,7 +25,6 @@ function App() {
   const [inputError, setInputError] = useState("");
   const [leaderboard, setLeaderboard] = useState<Array<User>>([]);
   async function startGame() {
-    setStartTime(Date.now());
     document.body.style.overflow = "auto";
     window.scrollTo(0, 0);
     const response = await fetch(
@@ -36,6 +35,7 @@ function App() {
     );
     const data = await response.json();
     if (data === true) {
+      setStartTime(Date.now());
       const intervalid = setInterval(() => setTime(Date.now()), 10);
       setIntervalId(intervalid);
     } else {

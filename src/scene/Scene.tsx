@@ -52,7 +52,7 @@ export default function Scene({
   }, [found]);
 
   function getCoordinates(coords: any) {
-    const coordinates: Array<Number> = [
+    const coordinates: Array<number> = [
       Math.round(
         (coords.nativeEvent.offsetX / coords.target.offsetWidth) * 1000
       ),

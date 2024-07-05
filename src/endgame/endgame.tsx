@@ -5,7 +5,7 @@ interface Params {
   startTime: number;
   saveUser: any;
   setNickname: Function;
-  inputError: String;
+  inputError: string;
 }
 export default function Endgame({
   time,
