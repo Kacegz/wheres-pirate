@@ -1,51 +1,59 @@
-@use '../variables.scss';
-.overlay{
-    position: fixed;
-    top:0;
+@use "../variables.scss";
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba($color: #000000, $alpha: 0.6);
+  z-index: 5;
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 70px;
+  height: 700px;
+  width: 1000px;
+  border-radius: 10px;
+  background-color: variables.$dark;
+  z-index: 6;
+  box-shadow: 0px 6px 12px 2px #000000;
+  button,
+  input[type="submit"] {
+    background-color: #2b557d;
+    width: 200px;
+    padding: 10px;
+    border-radius: 25px;
+    border: none;
+    color: #e4eaef;
+    box-shadow: 2px 4px 4px 0px rgb(0, 0, 0);
+  }
+  button:hover,
+  input[type="submit"]:hover {
+    transform: scale(1.05);
+  }
+  button:active,
+  input[type="submit"]:active {
+    transform: scale(0.9);
+  }
+}
+@media screen and (max-width: 600px) {
+  .overlay {
+    width: 200%;
+    position: absolute;
+    top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba($color: #000000, $alpha: 0.6);
-    z-index: 5;
-    backdrop-filter:blur(4px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  }
 }
-.modal{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap:30px;
-    margin-top: 70px;
-    height: 700px;
-    width: 1000px;
-    border-radius: 10px;
-    background-color: variables.$dark;
-    z-index: 6;
-    box-shadow: 0px 6px 12px 2px #000000;
-    button,input[type="submit"]{
-        background-color: #2B557D;
-        width: 200px;
-        padding: 10px;
-        border-radius: 25px;
-        border:none;
-        color: #E4EAEF;
-        box-shadow: 2px 4px 4px 0px rgb(0, 0, 0);
-      }
-      button:hover,input[type="submit"]:hover{
-        transform: scale(1.05);
-      }
-      button:active,input[type="submit"]:active{
-        transform: scale(0.9);
-      }
-}
-@media screen and (max-width:600px) {
-  .overlay{
-      width:200%;
-      position:absolute;
-      top: 0;
-      left:0;
+@media screen and (max-height: 800px) {
+  .modal {
+    scale: 0.8;
   }
 }
