@@ -21,7 +21,7 @@ export default function Scene({
     async function fetchData() {
       try {
         const response = await fetch(
-          "https://kacegz-wheres-pirate.up.railway.app/characters"
+          "https://partial-glyn-kace-50df84c2.koyeb.app/characters"
         );
         const data = await response.json();
         setCharacters(data);
@@ -35,7 +35,7 @@ export default function Scene({
   useEffect(() => {
     async function checkWin() {
       const response = await fetch(
-        "https://kacegz-wheres-pirate.up.railway.app/checkWin",
+        "https://partial-glyn-kace-50df84c2.koyeb.app/checkWin",
         {
           method: "POST",
           body: JSON.stringify(found),
@@ -90,7 +90,7 @@ export default function Scene({
       y: coordinatesRef.current[1],
     };
     const response = await fetch(
-      "https://kacegz-wheres-pirate.up.railway.app/check",
+      "https://partial-glyn-kace-50df84c2.koyeb.app/check",
       {
         method: "POST",
         body: JSON.stringify(clicked),

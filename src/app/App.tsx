@@ -28,7 +28,7 @@ function App() {
     document.body.style.overflow = "auto";
     window.scrollTo(0, 0);
     const response = await fetch(
-      "https://kacegz-wheres-pirate.up.railway.app/start",
+      "https://partial-glyn-kace-50df84c2.koyeb.app/start",
       {
         credentials: "include",
       }
@@ -47,14 +47,14 @@ function App() {
   async function stopGame() {
     clearInterval(intervalid);
     document.body.style.overflow = "hidden";
-    await fetch("https://kacegz-wheres-pirate.up.railway.app/stop", {
+    await fetch("https://partial-glyn-kace-50df84c2.koyeb.app/stop", {
       credentials: "include",
     });
   }
   async function saveUser(e: React.ChangeEvent<SubmitEvent>) {
     e.preventDefault();
     const response = await fetch(
-      "https://kacegz-wheres-pirate.up.railway.app/save",
+      "https://partial-glyn-kace-50df84c2.koyeb.app/save",
       {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nickname: nickname }),
@@ -73,7 +73,7 @@ function App() {
   }
   async function fetchLeaderboard() {
     const request = await fetch(
-      "https://kacegz-wheres-pirate.up.railway.app/top"
+      "https://partial-glyn-kace-50df84c2.koyeb.app/top"
     );
     const users = await request.json();
     setLeaderboard(users);
